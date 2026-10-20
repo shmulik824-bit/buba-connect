@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Buba Auto - eBay connect</title>
+<style>body{font-family:system-ui,sans-serif;max-width:520px;margin:60px auto;padding:0 16px;color:#111;background:#fff}a{color:#0b5cad}</style>
+</head>
+<body>
+<h2>Sending eBay's answer to Command Center...</h2>
+<p id="msg">If nothing happens, make sure Command Center is running on this PC.</p>
+<script>
+// eBay sends the browser here after you agree (with ?code=...) or decline.
+// This page only forwards that to Command Center on this same computer.
+// The code is single-use and worthless without the app's secret, which never leaves the PC.
+(function () {
+  var base = "http://127.0.0.1:8787/api/ebay/oauth/";
+  var q = window.location.search || "";
+  var target = (q.indexOf("code=") !== -1 ? base + "callback" : base + "declined") + q;
+  document.getElementById("msg").innerHTML =
+    'If nothing happens, make sure Command Center is running, then <a id="go">click here</a>.';
+  document.getElementById("go").href = target;
+  window.location.replace(target);
+})();
+</script>
+</body>
+</html>
